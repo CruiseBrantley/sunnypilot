@@ -35,4 +35,8 @@ class LatControlTorqueExt(NeuralNetworkLateralControl, LatControlTorqueExtOverri
     self.update_calculations(CS, VM, desired_lateral_accel)
     self.update_neural_network_feedforward(CS, params, calibrated_pose)
 
+    if self.torque_override_enabled:
+      self._pid._k_p[1][-1] = self.offline_kp
+      self._pid._k_i[1][0] = self.offline_ki
+
     return self._pid_log, self._output_torque

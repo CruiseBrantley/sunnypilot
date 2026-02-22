@@ -94,6 +94,28 @@ class TorqueSettingsLayout(Widget):
       use_float_scaling=True
     )
 
+    self._torque_kp = option_item_sp(
+      title=lambda: tr("KP"),
+      param="TorqueParamsOverrideKp",
+      description="",
+      min_value=10,
+      max_value=300,
+      value_change_step=5,
+      label_callback=(lambda x: f"{x/100}"),
+      use_float_scaling=True
+    )
+
+    self._torque_ki = option_item_sp(
+      title=lambda: tr("KI"),
+      param="TorqueParamsOverrideKi",
+      description="",
+      min_value=1,
+      max_value=100,
+      value_change_step=1,
+      label_callback=(lambda x: f"{x/100}"),
+      use_float_scaling=True
+    )
+
     items = [
       self._torque_control_versions,
       self._self_tune_toggle,
@@ -102,6 +124,8 @@ class TorqueSettingsLayout(Widget):
       self._torque_prams_override_toggle,
       self._torque_lat_accel_factor,
       self._torque_friction,
+      self._torque_kp,
+      self._torque_ki,
     ]
     return items
 
@@ -117,15 +141,21 @@ class TorqueSettingsLayout(Widget):
     self._torque_prams_override_toggle.set_visible(custom_tune_enabled)
     self._torque_lat_accel_factor.set_visible(custom_tune_enabled)
     self._torque_friction.set_visible(custom_tune_enabled)
+    self._torque_kp.set_visible(custom_tune_enabled)
+    self._torque_ki.set_visible(custom_tune_enabled)
 
     self._torque_prams_override_toggle.action_item.set_enabled(ui_state.is_offroad())
     sliders_enabled = self._torque_prams_override_toggle.action_item.get_state() or ui_state.is_offroad()
     self._torque_lat_accel_factor.action_item.set_enabled(sliders_enabled)
     self._torque_friction.action_item.set_enabled(sliders_enabled)
+    self._torque_kp.action_item.set_enabled(sliders_enabled)
+    self._torque_ki.action_item.set_enabled(sliders_enabled)
 
     title_text = tr("Real-Time & Offline") if ui_state.params.get("TorqueParamsOverrideEnabled") else tr("Offline Only")
     self._torque_lat_accel_factor.set_title(lambda: tr("Lateral Acceleration Factor") + " (" + title_text + ")")
     self._torque_friction.set_title(lambda: tr("Friction") + " (" + title_text + ")")
+    self._torque_kp.set_title(lambda: tr("KP") + " (" + title_text + ")")
+    self._torque_ki.set_title(lambda: tr("KI") + " (" + title_text + ")")
     self._torque_control_versions.action_item.set_value(self._get_current_torque_version_label())
 
   def _render(self, rect):
