@@ -272,4 +272,6 @@ inline static std::unordered_map<std::string, ParamKeyAttributes> keys = {
     {"TorqueParamsOverrideEnabled", {PERSISTENT | BACKUP, BOOL, "0"}},
     {"TorqueParamsOverrideFriction", {PERSISTENT | BACKUP, FLOAT, "0.1"}},
     {"TorqueParamsOverrideLatAccelFactor", {PERSISTENT | BACKUP, FLOAT, "2.5"}},
+    {"TorqueParamsOverrideKp", {PERSISTENT | BACKUP, FLOAT, "0.8"}},
+    {"TorqueParamsOverrideKi", {PERSISTENT | BACKUP, FLOAT, "0.15"}},
 };

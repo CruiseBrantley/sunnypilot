@@ -14,6 +14,8 @@ class LatControlTorqueExtOverride:
     self.params = Params()
     self.enforce_torque_control_toggle = self.params.get_bool("EnforceTorqueControl")  # only during init
     self.torque_override_enabled = self.params.get_bool("TorqueParamsOverrideEnabled")
+    self.offline_kp = 0.0
+    self.offline_ki = 0.0
     self.frame = -1
 
   def update_override_torque_params(self, torque_params) -> bool:
@@ -29,6 +31,8 @@ class LatControlTorqueExtOverride:
 
       torque_params.latAccelFactor = float(self.params.get("TorqueParamsOverrideLatAccelFactor", return_default=True))
       torque_params.friction = float(self.params.get("TorqueParamsOverrideFriction", return_default=True))
+      self.offline_kp = float(self.params.get("TorqueParamsOverrideKp", return_default=True))
+      self.offline_ki = float(self.params.get("TorqueParamsOverrideKi", return_default=True))
       return True
 
     return False
